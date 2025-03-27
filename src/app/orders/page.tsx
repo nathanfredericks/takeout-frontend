@@ -3,6 +3,7 @@ import { DashboardLayout, PageContainer } from "@toolpad/core";
 import { auth } from "@/auth";
 import ConsumerOrderList from "@/app/components/consumer/OrderList";
 import CourierOrderList from "@/app/components/courier/OrderList";
+import { Alert } from "@mui/material";
 
 export default async function OrdersPage() {
   const session = await auth();
@@ -23,6 +24,7 @@ export default async function OrdersPage() {
     return (
       <DashboardLayout>
         <PageContainer breadcrumbs={[{ title: "Orders", path: "/orders" }]}>
+          {!data.length && <Alert severity="info">No orders found</Alert>}
           {session?.user.role === "courier" ? (
             <CourierOrderList orders={sortedOrders} />
           ) : (

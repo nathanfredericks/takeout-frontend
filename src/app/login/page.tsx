@@ -51,7 +51,16 @@ export default function LoginPage() {
   };
 
   return (
-    <DashboardLayout hideNavigation>
+    <DashboardLayout
+      hideNavigation
+      slotProps={{
+        toolbarAccount: {
+          slots: {
+            signInButton: () => null,
+          },
+        },
+      }}
+    >
       <Container maxWidth="sm">
         <PageContainer title="Login" breadcrumbs={[]}>
           {error && (

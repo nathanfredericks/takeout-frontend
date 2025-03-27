@@ -2,7 +2,12 @@
 
 import { useSession } from "next-auth/react";
 import { createItemsDataSource } from "./datasources";
-import { CrudProvider, DataSource, DataSourceCache } from "@toolpad/core";
+import {
+  CrudProvider,
+  DataSource,
+  DataSourceCache,
+  LocalizationProvider,
+} from "@toolpad/core";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { components } from "@/api/schema";
@@ -34,11 +39,27 @@ export default function ItemsCRUDProvider({
   }
 
   return (
-    <CrudProvider
-      dataSource={itemsDataSource}
-      dataSourceCache={itemsDataSourceCache}
+    <LocalizationProvider
+      localeText={{
+        createNewButtonLabel: "Add new",
+        createLabel: "Add",
+        createSuccessMessage: "Item created successfully",
+        createErrorMessage: "Failed to create item",
+        editSuccessMessage: "Item edited successfully",
+        editErrorMessage: "Failed to edit item",
+        deleteConfirmTitle: "Delete item?",
+        deleteConfirmMessage: "Are you sure you want to delete this item?",
+        deleteSuccessMessage: "Item deleted successfully",
+        deleteErrorMessage: "Failed to delete item",
+        deletedItemMessage: "Item deleted",
+      }}
     >
-      {children}
-    </CrudProvider>
+      <CrudProvider
+        dataSource={itemsDataSource}
+        dataSourceCache={itemsDataSourceCache}
+      >
+        {children}
+      </CrudProvider>
+    </LocalizationProvider>
   );
 }

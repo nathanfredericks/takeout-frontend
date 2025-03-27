@@ -74,7 +74,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <DashboardLayout hideNavigation>
+    <DashboardLayout
+      hideNavigation
+      slotProps={{
+        toolbarAccount: {
+          slots: {
+            signInButton: () => null,
+          },
+        },
+      }}
+    >
       <Container maxWidth="sm">
         <PageContainer title="Register" breadcrumbs={[]}>
           {error && (

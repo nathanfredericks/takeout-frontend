@@ -1,0 +1,40 @@
+{
+  "name": "takeout-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fix": "prettier --write . && next lint --fix ."
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.8",
+    "@mui/material": "^6.4.8",
+    "@mui/material-nextjs": "^6.4.3",
+    "@mui/x-data-grid": "^7.28.1",
+    "@toolpad/core": "^0.13.0",
+    "@vis.gl/react-google-maps": "^1.5.2",
+    "formik": "^2.4.6",
+    "next": "15.2.4",
+    "next-auth": "^5.0.0-beta.25",
+    "openapi-fetch": "^0.13.5",
+    "openapi-typescript": "^7.6.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
+    "prettier": "^3.5.3",
+    "typescript": "^5"
+  }
+}

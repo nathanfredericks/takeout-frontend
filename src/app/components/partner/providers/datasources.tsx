@@ -6,10 +6,26 @@ import { Session } from "next-auth";
 import { createClientApi } from "@/api/client";
 import { formatCurrency } from "@/utils/format";
 import OrderStatusChip from "../../OrderStatusChip";
+import * as yup from "yup";
 
 type Merchant = components["schemas"]["MerchantReadSchema"];
 type Item = components["schemas"]["ItemReadSchema"];
 type Order = components["schemas"]["OrderReadSchema"];
+
+const merchantSchema = yup.object({
+  name: yup.string().required("Name is required"),
+  location: yup.string().required("Location is required"),
+  description: yup.string(),
+});
+
+const itemSchema = yup.object({
+  name: yup.string().required("Name is required"),
+  description: yup.string(),
+  price: yup
+    .number()
+    .required("Price is required")
+    .min(0, "Price must be non-negative"),
+});
 
 export function createMerchantsDataSource(
   session: Session | null,
@@ -22,6 +38,21 @@ export function createMerchantsDataSource(
       { field: "description", headerName: "Description", flex: 1 },
       { field: "location", headerName: "Location", flex: 1 },
     ],
+    validate: (formValues) => {
+      try {
+        merchantSchema.validateSync(formValues, { abortEarly: false });
+        return { issues: [] };
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const issues = err.inner.map((validationError) => ({
+            message: validationError.message,
+            path: [validationError.path as keyof Merchant],
+          }));
+          return { issues };
+        }
+        return { issues: [] };
+      }
+    },
     getMany: async () => {
       const { data } = await clientApi.GET("/api/merchants");
 
@@ -100,6 +131,21 @@ export function createItemsDataSource(
         },
       },
     ],
+    validate: (formValues) => {
+      try {
+        itemSchema.validateSync(formValues, { abortEarly: false });
+        return { issues: [] };
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const issues = err.inner.map((validationError) => ({
+            message: validationError.message,
+            path: [validationError.path as keyof Item],
+          }));
+          return { issues };
+        }
+        return { issues: [] };
+      }
+    },
     getMany: async () => {
       const { data } = await clientApi.GET(
         "/api/merchants/{merchant_id}/items",

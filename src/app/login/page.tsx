@@ -35,11 +35,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
 
-  // Get the callbackUrl from URL parameters
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   useEffect(() => {
-    // Check if user was redirected due to session expiration
     const expired = searchParams.get("expired");
     if (expired === "true") {
       setSessionExpired(true);
@@ -75,10 +73,10 @@ export default function LoginPage() {
       }}
     >
       <Container maxWidth="sm">
-        <PageContainer title="Login" breadcrumbs={[]}>
+        <PageContainer title="Sign in" breadcrumbs={[]}>
           {sessionExpired && (
             <Alert severity="info" sx={{ mb: 3 }}>
-              Your session has expired. Please log in again to continue.
+              Your session has expired
             </Alert>
           )}
 
@@ -135,13 +133,13 @@ export default function LoginPage() {
                     variant="contained"
                     disabled={loading || isSubmitting}
                   >
-                    {loading ? "Logging in..." : "Login"}
+                    {loading ? "Signing in..." : "Sign in"}
                   </Button>
                   <Button
                     onClick={() => router.push("/register")}
                     variant="text"
                   >
-                    Register
+                    Sign up
                   </Button>
                 </Stack>
               </Form>

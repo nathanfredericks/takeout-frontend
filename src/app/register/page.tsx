@@ -85,7 +85,7 @@ export default function RegisterPage() {
       }}
     >
       <Container maxWidth="sm">
-        <PageContainer title="Register" breadcrumbs={[]}>
+        <PageContainer title="Sign up" breadcrumbs={[]}>
           {error && (
             <Alert severity="error" sx={{ mb: 3 }}>
               {error}
@@ -203,10 +203,10 @@ export default function RegisterPage() {
                     variant="contained"
                     disabled={loading || isSubmitting}
                   >
-                    {loading ? "Registering..." : "Register"}
+                    {loading ? "Signing up..." : "Sign up"}
                   </Button>
                   <Button onClick={() => router.push("/login")} variant="text">
-                    Login
+                    Sign in
                   </Button>
                 </Stack>
               </Form>

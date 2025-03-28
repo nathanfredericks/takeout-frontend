@@ -35,7 +35,7 @@ export async function middleware(request: NextRequest) {
               request.nextUrl.pathname + request.nextUrl.search,
             );
             return NextResponse.redirect(
-              new URL(`/login?callbackUrl=${callbackUrl}`, request.url),
+              new URL(`/login?expired=true&callbackUrl=${callbackUrl}`, request.url),
             );
           }
         } else {

@@ -32,7 +32,7 @@ const createClientAuthMiddleware = (session: Session | null): Middleware => ({
         const currentUrl = encodeURIComponent(
           window.location.pathname + window.location.search,
         );
-        window.location.href = `/login?callbackUrl=${currentUrl}`;
+        window.location.href = `/login?expired=true&callbackUrl=${currentUrl}`;
       }
     }
     return response;

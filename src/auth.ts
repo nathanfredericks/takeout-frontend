@@ -96,6 +96,9 @@ export const options = NextAuth({
       return token;
     },
   },
+  jwt: {
+    maxAge: 30 * 60,
+  },
   session: {
     maxAge: 30 * 60,
   },

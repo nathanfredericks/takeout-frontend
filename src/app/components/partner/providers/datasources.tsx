@@ -15,12 +15,12 @@ type Order = components["schemas"]["OrderReadSchema"];
 const merchantSchema = yup.object({
   name: yup.string().required("Name is required"),
   location: yup.string().required("Location is required"),
-  description: yup.string(),
+  description: yup.string().nullable(),
 });
 
 const itemSchema = yup.object({
   name: yup.string().required("Name is required"),
-  description: yup.string(),
+  description: yup.string().nullable(),
   price: yup
     .number()
     .required("Price is required")

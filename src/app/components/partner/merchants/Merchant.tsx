@@ -26,6 +26,18 @@ export default function Merchant() {
           onEditClick={(id) =>
             router.push(`/merchants/${params.id}/items/${id}/edit`)
           }
+          slotProps={{
+            dataGrid: {
+              disableColumnFilter: true,
+              disableColumnSorting: true,
+              disableColumnMenu: true,
+              disableColumnResize: true,
+              hideFooter: true,
+              slots: {
+                toolbar: () => null,
+              },
+            },
+          }}
         />
       </ItemsCRUDProvider>
 
@@ -37,6 +49,18 @@ export default function Merchant() {
           onRowClick={(id) =>
             router.push(`/merchants/${params.id}/orders/${id}`)
           }
+          slotProps={{
+            dataGrid: {
+              disableColumnFilter: true,
+              disableColumnSorting: true,
+              disableColumnMenu: true,
+              disableColumnResize: true,
+              hideFooter: true,
+              slots: {
+                toolbar: () => null,
+              },
+            },
+          }}
         />
       </OrdersCRUDProvider>
     </>

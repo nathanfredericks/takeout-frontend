@@ -10,6 +10,18 @@ export default function MerchantList() {
       onRowClick={(id) => router.push(`/merchants/${id}`)}
       onCreateClick={() => router.push(`/merchants/new`)}
       onEditClick={(id) => router.push(`/merchants/${id}/edit`)}
+      slotProps={{
+        dataGrid: {
+          disableColumnFilter: true,
+          disableColumnSorting: true,
+          disableColumnMenu: true,
+          disableColumnResize: true,
+          hideFooter: true,
+          slots: {
+            toolbar: () => null,
+          },
+        },
+      }}
     />
   );
 }

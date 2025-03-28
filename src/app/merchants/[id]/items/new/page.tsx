@@ -30,7 +30,7 @@ export default async function NewItemPage({
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout hideNavigation>
       <PageContainer
         title="New Item"
         breadcrumbs={[

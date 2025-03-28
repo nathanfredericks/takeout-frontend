@@ -29,7 +29,7 @@ export default async function MerchantsPage() {
 
   if (session?.user.role === "partner") {
     return (
-      <DashboardLayout>
+      <DashboardLayout hideNavigation>
         <PageContainer
           breadcrumbs={[{ title: "Merchants", path: "/merchants" }]}
         >

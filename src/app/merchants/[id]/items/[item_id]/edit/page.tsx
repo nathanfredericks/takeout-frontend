@@ -46,7 +46,7 @@ export default async function EditItemPage({
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout hideNavigation>
       <PageContainer
         title={"Edit " + item.name}
         breadcrumbs={[

@@ -47,7 +47,7 @@ export default async function NewItem({
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout hideNavigation>
       <PageContainer
         title={order.merchant_name + " #" + order_id}
         breadcrumbs={[

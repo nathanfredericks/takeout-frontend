@@ -10,7 +10,7 @@ export default async function NewMerchantPage() {
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout hideNavigation>
       <PageContainer
         title="New Merchant"
         breadcrumbs={[

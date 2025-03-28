@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Alert,
   Button,
@@ -30,8 +30,21 @@ interface LoginFormValues {
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
+
+  // Get the callbackUrl from URL parameters
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  useEffect(() => {
+    // Check if user was redirected due to session expiration
+    const expired = searchParams.get("expired");
+    if (expired === "true") {
+      setSessionExpired(true);
+    }
+  }, [searchParams]);
 
   const handleLogin = async (
     values: LoginFormValues,
@@ -40,7 +53,7 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
-    const response = await login(values.email, values.password);
+    const response = await login(values.email, values.password, callbackUrl);
 
     if (response?.error) {
       setError(response.error);
@@ -63,6 +76,12 @@ export default function LoginPage() {
     >
       <Container maxWidth="sm">
         <PageContainer title="Login" breadcrumbs={[]}>
+          {sessionExpired && (
+            <Alert severity="info" sx={{ mb: 3 }}>
+              Your session has expired. Please log in again to continue.
+            </Alert>
+          )}
+
           {error && (
             <Alert severity="error" sx={{ mb: 3 }}>
               {error}

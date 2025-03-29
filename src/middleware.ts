@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 export async function middleware(request: NextRequest) {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session) {
     const isProtectedRoute = !request.nextUrl.pathname.match(
       /^\/api|^\/login|^\/register|^\/_next/,
     );
@@ -17,20 +17,19 @@ export async function middleware(request: NextRequest) {
       );
     }
   }
-  if (session?.user) {
+
     const token =
       request.cookies.get("next-auth.session-token")?.value ||
       request.cookies.get("__Secure-next-auth.session-token")?.value;
 
     if (token) {
-      try {
-        const authTimestamp = request.cookies.get("last-logged-in")?.value;
+        const lastLoggedIn = request.cookies.get("last-logged-in")?.value;
 
-        if (authTimestamp) {
-          const loginTime = parseInt(authTimestamp, 10);
+        if (lastLoggedIn) {
+          const lastLoggedInTimestamp = parseInt(lastLoggedIn, 10);
           const currentTime = Date.now();
 
-          if (currentTime - loginTime > 30 * 60 * 1000) {
+          if (currentTime - lastLoggedInTimestamp > 30 * 60 * 1000) {
             const callbackUrl = encodeURIComponent(
               request.nextUrl.pathname + request.nextUrl.search,
             );
@@ -48,10 +47,6 @@ export async function middleware(request: NextRequest) {
           });
           return response;
         }
-      } catch (error) {
-        console.error("Error checking session expiration:", error);
-      }
-    }
   }
 
   return NextResponse.next();

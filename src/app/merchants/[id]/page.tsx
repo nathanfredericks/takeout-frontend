@@ -1,6 +1,6 @@
 import { api } from "@/api/client";
 import ConsumerMerchant from "@/app/components/consumer/Merchant";
-import { CartProvider } from "@/contexts/CartContext";
+import { CartProvider } from "@/app/components/consumer/contexts/CartContext";
 import { DashboardLayout, PageContainer } from "@toolpad/core";
 import { auth } from "@/auth";
 import PartnerMerchant from "@/app/components/partner/merchants/Merchant";

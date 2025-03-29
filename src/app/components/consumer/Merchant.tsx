@@ -15,7 +15,7 @@ import {
   Alert,
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/app/components/consumer/contexts/CartContext";
 import Cart from "@/app/components/consumer/Cart";
 import { components } from "@/api/schema";
 import { PageContainer } from "@toolpad/core";

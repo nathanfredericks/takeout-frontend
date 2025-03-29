@@ -9,7 +9,7 @@ import {
 } from "@toolpad/core";
 import { useEffect, useState } from "react";
 import { components } from "@/api/schema";
-import { createMerchantsDataSource } from "@/app/components/partner/providers/datasources";
+import { createMerchantsDataSource } from "../datasources/merchants";
 
 type Merchant = components["schemas"]["MerchantReadSchema"];
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { createItemsDataSource } from "./datasources";
+import { createItemsDataSource } from "../datasources/items";
 import {
   CrudProvider,
   DataSource,

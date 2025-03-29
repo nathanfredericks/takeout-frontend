@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { createOrdersDataSource } from "./datasources";
+import { createOrdersDataSource } from "../datasources/orders";
 import { CrudProvider, DataSource, DataSourceCache } from "@toolpad/core";
 import { useEffect, useState } from "react";
 import { components } from "@/api/schema";

@@ -2,7 +2,6 @@ export const formatCurrency = (amount: number | string): string => {
   if (typeof amount === "string") {
     amount = parseFloat(amount);
   }
-  console.log(amount);
   return amount.toLocaleString("en-CA", {
     style: "currency",
     currency: "CAD",

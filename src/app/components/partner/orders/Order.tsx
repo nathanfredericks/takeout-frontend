@@ -15,7 +15,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Show } from "@toolpad/core";
+import Show from "../../crud/Show";
+import { useRouter } from "next/navigation";
 
 interface OrderProps {
   order: components["schemas"]["OrderReadSchema"];
@@ -23,10 +24,11 @@ interface OrderProps {
 
 export default function Order(props: OrderProps) {
   const { order } = props;
+  const router = useRouter();
 
   return (
     <Stack direction="column">
-      <Show id={order.id} />
+      <Show data={order} />
       <Typography variant="h5" component="div">
         Items
       </Typography>
@@ -58,6 +60,7 @@ export default function Order(props: OrderProps) {
             sx={{ width: "auto", alignSelf: "flex-start" }}
             onClick={async () => {
               await cancelOrder(order.merchant_id, order.id);
+              router.refresh();
             }}
           >
             Cancel
@@ -72,6 +75,7 @@ export default function Order(props: OrderProps) {
             sx={{ width: "auto", alignSelf: "flex-start" }}
             onClick={async () => {
               await acceptOrder(order.merchant_id, order.id);
+              router.refresh();
             }}
           >
             Accept
@@ -86,6 +90,7 @@ export default function Order(props: OrderProps) {
             sx={{ width: "auto", alignSelf: "flex-start" }}
             onClick={async () => {
               await readyForPickup(order.merchant_id, order.id);
+              router.refresh();
             }}
           >
             Mark as Ready for Pickup

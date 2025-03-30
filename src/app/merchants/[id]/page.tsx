@@ -28,22 +28,22 @@ export default async function MerchantPage({
     return null;
   }
 
-  if (session?.user.role === "consumer") {
-    const { data: items, error: itemsError } = await api.GET(
-      "/api/merchants/{merchant_id}/items",
-      {
-        params: {
-          path: {
-            merchant_id: parseInt(id),
-          },
+  const { data: items, error: itemsError } = await api.GET(
+    "/api/merchants/{merchant_id}/items",
+    {
+      params: {
+        path: {
+          merchant_id: parseInt(id),
         },
       },
-    );
+    },
+  );
 
-    if (itemsError || !items) {
-      return null;
-    }
+  if (itemsError || !items) {
+    return null;
+  }
 
+  if (session?.user.role === "consumer") {
     return (
       <DashboardLayout>
         <CartProvider>
@@ -54,6 +54,21 @@ export default async function MerchantPage({
   }
 
   if (session?.user.role === "partner") {
+    const { data: orders, error: ordersError } = await api.GET(
+      "/api/merchants/{merchant_id}/orders",
+      {
+        params: {
+          path: {
+            merchant_id: parseInt(id),
+          },
+        },
+      },
+    );
+
+    if (ordersError || !orders) {
+      return null;
+    }
+
     return (
       <>
         <DashboardLayout hideNavigation>
@@ -67,7 +82,11 @@ export default async function MerchantPage({
               },
             ]}
           >
-            <PartnerMerchant />
+            <PartnerMerchant
+              merchant={merchant}
+              items={items}
+              orders={orders}
+            />
           </PageContainer>
         </DashboardLayout>
       </>

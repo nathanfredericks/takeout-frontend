@@ -1,20 +1,64 @@
 "use client";
-import { List, Show } from "@toolpad/core";
+import { useDialogs, useNotifications } from "@toolpad/core";
 import { useParams, useRouter } from "next/navigation";
 import ItemsCRUDProvider from "../providers/ItemsCRUDProvider";
 import { Typography } from "@mui/material";
 import OrdersCRUDProvider from "@/app/components/partner/providers/OrdersCRUDProvider";
+import List from "../../crud/List";
+import { components } from "@/api/schema";
+import { formatCurrency } from "@/utils/format";
+import OrderStatusChip from "../../OrderStatusChip";
+import { deleteItem } from "@/app/merchants/[id]/actions";
+import Show from "../../crud/Show";
+import { deleteMerchant } from "@/app/merchants/actions";
 
-export default function Merchant() {
+interface MerchantProps {
+  merchant: components["schemas"]["MerchantReadSchema"];
+  items: components["schemas"]["ItemReadSchema"][];
+  orders: components["schemas"]["OrderReadSchema"][];
+}
+
+export default function Merchant(props: MerchantProps) {
+  const { merchant, items, orders } = props;
   const router = useRouter();
-  const params = useParams<{ id: string }>();
+  const { id: merchantId } = useParams<{ id: string }>();
+  const dialogs = useDialogs();
+  const notifications = useNotifications();
 
   return (
     <>
       <Show
-        id={params.id}
-        onEditClick={() => router.push(`/merchants/${params.id}/edit`)}
-        onDelete={() => {}}
+        data={merchant}
+        onEditClick={() => router.push(`/merchants/${merchantId}/edit`)}
+        onDelete={async () => {
+          const confirmed = await dialogs.confirm(
+            "Are you sure you want to delete this merchant?",
+            {
+              title: "Delete merchant?",
+              severity: "error",
+              okText: "Delete",
+              cancelText: "Cancel",
+            },
+          );
+
+          if (!confirmed) {
+            return;
+          }
+
+          try {
+            await deleteMerchant(merchantId);
+            notifications.show("Merchant deleted successfully", {
+              severity: "success",
+              autoHideDuration: 3000,
+            });
+            router.push("/merchants");
+          } catch {
+            notifications.show("Failed to delete merchant", {
+              severity: "error",
+              autoHideDuration: 3000,
+            });
+          }
+        }}
       />
 
       <ItemsCRUDProvider>
@@ -22,17 +66,44 @@ export default function Merchant() {
           Items
         </Typography>
         <List
-          onCreateClick={() => router.push(`/merchants/${params.id}/items/new`)}
-          onEditClick={(id) =>
-            router.push(`/merchants/${params.id}/items/${id}/edit`)
+          data={items}
+          onCreateClick={() =>
+            router.push(`/merchants/${merchantId}/items/new`)
           }
+          onEditClick={(itemId) =>
+            router.push(`/merchants/${merchantId}/items/${itemId}/edit`)
+          }
+          onDelete={async (itemId) => {
+            const confirmed = await dialogs.confirm(
+              "Are you sure you want to delete this item?",
+              {
+                title: "Delete item?",
+                severity: "error",
+                okText: "Delete",
+                cancelText: "Cancel",
+              },
+            );
+
+            if (!confirmed) {
+              return;
+            }
+
+            try {
+              await deleteItem(merchantId, itemId);
+              notifications.show("Item deleted successfully", {
+                severity: "success",
+                autoHideDuration: 3000,
+              });
+              router.refresh();
+            } catch {
+              notifications.show("Failed to delete item", {
+                severity: "error",
+                autoHideDuration: 3000,
+              });
+            }
+          }}
           slotProps={{
             dataGrid: {
-              disableColumnFilter: true,
-              disableColumnSorting: true,
-              disableColumnMenu: true,
-              disableColumnResize: true,
-              hideFooter: true,
               slots: {
                 toolbar: () => null,
               },
@@ -46,16 +117,12 @@ export default function Merchant() {
           Orders
         </Typography>
         <List
-          onRowClick={(id) =>
-            router.push(`/merchants/${params.id}/orders/${id}`)
+          data={orders}
+          onRowClick={(orderId) =>
+            router.push(`/merchants/${merchantId}/orders/${orderId}`)
           }
           slotProps={{
             dataGrid: {
-              disableColumnFilter: true,
-              disableColumnSorting: true,
-              disableColumnMenu: true,
-              disableColumnResize: true,
-              hideFooter: true,
               slots: {
                 toolbar: () => null,
               },

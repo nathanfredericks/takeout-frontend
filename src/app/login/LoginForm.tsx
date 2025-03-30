@@ -32,7 +32,10 @@ interface LoginFormProps {
   sessionExpired: boolean;
 }
 
-export default function LoginForm({ callbackUrl, sessionExpired }: LoginFormProps) {
+export default function LoginForm({
+  callbackUrl,
+  sessionExpired,
+}: LoginFormProps) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);

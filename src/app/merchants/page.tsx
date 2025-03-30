@@ -8,13 +8,13 @@ import { Alert } from "@mui/material";
 export default async function MerchantsPage() {
   const session = await auth();
 
+  const { data, error } = await api.GET("/api/merchants");
+
+  if (error || !data) {
+    return null;
+  }
+
   if (session?.user.role === "consumer") {
-    const { data, error } = await api.GET("/api/merchants");
-
-    if (error || !data) {
-      return null;
-    }
-
     return (
       <DashboardLayout>
         <PageContainer
@@ -33,7 +33,7 @@ export default async function MerchantsPage() {
         <PageContainer
           breadcrumbs={[{ title: "Merchants", path: "/merchants" }]}
         >
-          <PartnerMerchantList />
+          <PartnerMerchantList merchants={data} />
         </PageContainer>
       </DashboardLayout>
     );

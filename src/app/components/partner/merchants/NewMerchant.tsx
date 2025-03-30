@@ -1,11 +1,6 @@
 "use client";
-import { Create } from "@toolpad/core";
-import { useRouter } from "next/navigation";
+import { Create } from "../../crud/Create";
 
 export default function NewMerchant() {
-  const router = useRouter();
-
-  return (
-    <Create onSubmitSuccess={() => router.push("/merchants")} resetOnSubmit />
-  );
+  return <Create onSubmit={() => alert("Create")} />;
 }

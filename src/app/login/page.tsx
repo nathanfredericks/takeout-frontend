@@ -1,11 +1,11 @@
-import { redirect } from 'next/navigation';
-import { auth } from '@/auth';
-import LoginForm from './LoginForm';
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import LoginForm from "./LoginForm";
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const session = await auth();
   const { callbackUrl, expired } = await searchParams;
@@ -15,8 +15,13 @@ export default async function LoginPage({
     : callbackUrl;
 
   if (session) {
-      return redirect(callbackUrlString || '/');
+    return redirect(callbackUrlString || "/");
   }
-  
-  return <LoginForm callbackUrl={callbackUrlString} sessionExpired={expired === "true"} />;
+
+  return (
+    <LoginForm
+      callbackUrl={callbackUrlString}
+      sessionExpired={expired === "true"}
+    />
+  );
 }
